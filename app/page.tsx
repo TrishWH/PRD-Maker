@@ -3,13 +3,17 @@
 import { useState, useEffect } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
-import Link from "next/link"
+import CreatePRD from "@/components/create-prd"
+import ImprovePRD from "@/components/improve-prd"
 
 const rotatingWords = ["create", "build", "ship", "launch", "design"]
+
+type Page = "home" | "create" | "improve"
 
 export default function HomePage() {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [currentPage, setCurrentPage] = useState<Page>("home")
 
   // Rotate words every 2 seconds using useEffect
   useEffect(() => {
@@ -24,6 +28,23 @@ export default function HomePage() {
     return () => clearInterval(interval)
   }, [])
 
+  // Handle navigation without changing URL
+  const navigateTo = (page: Page) => {
+    setCurrentPage(page)
+    // Scroll to top when navigating
+    window.scrollTo(0, 0)
+  }
+
+  // Render the appropriate page based on state
+  if (currentPage === "create") {
+    return <CreatePRD onBack={() => navigateTo("home")} />
+  }
+
+  if (currentPage === "improve") {
+    return <ImprovePRD onBack={() => navigateTo("home")} />
+  }
+
+  // Home page
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       <div className="container max-w-2xl mx-auto px-4 py-12">
@@ -57,7 +78,7 @@ export default function HomePage() {
             <CardContent className="p-0">
               <div className="divide-y divide-gray-100/50">
                 {/* Create PRD Card */}
-                <Link href="/create" className="block group">
+                <button onClick={() => navigateTo("create")} className="block group w-full text-left">
                   <div className="flex items-center p-8 hover:bg-gradient-to-r hover:from-purple-50 hover:to-pink-50 transition-all duration-300 cursor-pointer">
                     <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
                       <span className="text-2xl">💡</span>
@@ -70,10 +91,10 @@ export default function HomePage() {
                     </div>
                     <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-purple-600 group-hover:translate-x-1 transition-all duration-300" />
                   </div>
-                </Link>
+                </button>
 
                 {/* Improve PRD Card */}
-                <Link href="/improve" className="block group">
+                <button onClick={() => navigateTo("improve")} className="block group w-full text-left">
                   <div className="flex items-center p-8 hover:bg-gradient-to-r hover:from-blue-50 hover:to-cyan-50 transition-all duration-300 cursor-pointer">
                     <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mr-6 flex-shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300">
                       <span className="text-2xl">💪</span>
@@ -86,7 +107,7 @@ export default function HomePage() {
                     </div>
                     <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
                   </div>
-                </Link>
+                </button>
 
                 {/* Build Prototype Card */}
                 <a
