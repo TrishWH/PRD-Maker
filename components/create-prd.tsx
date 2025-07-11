@@ -700,28 +700,25 @@ ${formData.keyFeatures
           {/* Generated PRD */}
           <Card className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border-0">
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent font-playfair">
-                  Your PRD ✨
-                </CardTitle>
-                {generatedPRD && (
-                  <Button
-                    onClick={downloadPRD}
-                    variant="outline"
-                    size="sm"
-                    className="border-2 border-green-200 hover:bg-green-50 rounded-xl"
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download 📥
-                  </Button>
-                )}
-              </div>
+              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent font-playfair">
+                Your PRD ✨
+              </CardTitle>
             </CardHeader>
             <CardContent>
               {generatedPRD ? (
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 max-h-96 overflow-y-auto border-2 border-gray-200">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">{generatedPRD}</pre>
-                </div>
+                <>
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 max-h-[600px] overflow-y-auto border-2 border-gray-200">
+                    <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono">{generatedPRD}</pre>
+                  </div>
+                  <Button
+                    onClick={downloadPRD}
+                    variant="outline"
+                    className="w-full mt-4 border-2 border-green-200 hover:bg-green-50 rounded-xl"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download PRD 📥
+                  </Button>
+                </>
               ) : (
                 <div className="text-center py-12 text-gray-500">
                   <div className="mb-4">

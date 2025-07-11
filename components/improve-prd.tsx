@@ -4,7 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
-import { ArrowLeft, FileText, Lightbulb } from "lucide-react"
+import { ArrowLeft, FileText, Lightbulb, Download } from "lucide-react"
 
 interface ImprovePRDProps {
   onBack: () => void
@@ -175,6 +175,16 @@ Your PRD addresses several key user needs, but we can make it even more fire:
     setIsAnalyzing(false)
   }
 
+  const downloadFeedback = () => {
+    const element = document.createElement("a")
+    const file = new Blob([feedback], { type: "text/markdown" })
+    element.href = URL.createObjectURL(file)
+    element.download = "PRD_Analysis_and_Feedback.md"
+    document.body.appendChild(element)
+    element.click()
+    document.body.removeChild(element)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
       <div className="container max-w-5xl mx-auto px-4 py-8">
@@ -241,16 +251,26 @@ Your PRD addresses several key user needs, but we can make it even more fire:
           {/* Feedback */}
           <Card className="bg-white/80 backdrop-blur-sm shadow-xl rounded-2xl border-0">
             <CardHeader>
-              <CardTitle className="flex items-center text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-playfair">
+              <CardTitle className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent font-playfair">
                 <Lightbulb className="w-6 h-6 mr-3 text-purple-500" />
                 AI Feedback & Suggestions 🤖
               </CardTitle>
             </CardHeader>
             <CardContent>
               {feedback ? (
-                <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 max-h-96 overflow-y-auto border-2 border-gray-200">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-800">{feedback}</pre>
-                </div>
+                <>
+                  <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 max-h-96 overflow-y-auto border-2 border-gray-200">
+                    <pre className="whitespace-pre-wrap text-sm text-gray-800">{feedback}</pre>
+                  </div>
+                  <Button
+                    onClick={downloadFeedback}
+                    variant="outline"
+                    className="w-full mt-4 border-2 border-purple-200 hover:bg-purple-50 rounded-xl"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Feedback 📥
+                  </Button>
+                </>
               ) : (
                 <div className="text-center py-12 text-gray-500">
                   <div className="mb-4">
